@@ -51,8 +51,29 @@ const removeNote = function (title) {
     }
 }
 
+const readNotes = (title) => {
+    const notes = loadNotes();
+    bool = false
+    notes.forEach(note => {
+        if(note.title === title) {
+            console.log(chalk.yellow.inverse(note.body))
+            bool =true
+            return
+        }
+    });
+    (bool === false)?console.log(chalk.red.inverse(`Note with title ${title} doesnt exist`)) : console.log('That was the body')
+}
+
+const listNote = () => {
+    const notes = loadNotes()
+    for(note in notes) {
+        console.log(`title : ${notes[note].title}  |  body : ${notes[note].body}`)
+    }
+}
+
 module.exports = {
     addNotes: addNotes,
-    getNotes: getNotes,
-    removeNote: removeNote
+    read : readNotes,
+    removeNote: removeNote,
+    listNote : listNote
 }
