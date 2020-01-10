@@ -1,37 +1,59 @@
 const notes = require('./notes.js')
 const chalk = require('chalk')
 const yargs = require('yargs')
-console.log(getNotes())
-console.log(chalk.bgRed(process.argv))
-// version definition using yargs
+
 yargs.version('1.0.1')
 
+yargs.command(
+    {
+        command: "add",
+        describe: "add new note",
+        builder: {
+            title: {
+                describe: "Add Note Title",
+                demandOption: true,
+                type: 'string'
+            },
+            body: {                
+                    describe: 'Add Note Body',
+                    demandOption: true,
+                    type: 'string'               
+            }
+        },
+        handler: function (argv) {            
+            notes.addNotes(argv.title, argv.body)
+        },
+    })
 
 
 
-
+yargs.command(
+    {
+        command: "remove",
+        describe: "remove note",
+        builder: {
+            title: {
+                describe: "Note Title to be deleted",
+                demandOption : true,
+                type: 'string'
+            }
+        },
+        handler (argv)  {
+            console.log('removing')
+            notes.removeNote(argv.title)
+        }
+    })
 
 yargs.command({
-    command : "add",
-    describe : "add new note",
-    handler : function() {
-        console.log("adding note...")
-    },
-    builder : {
-        command 
-    }
+    command: "read",
+    describe: "read note",
+    handler: () => console.log("reading notes...")
 })
 
-yargs.command({command:"remove",
-describe: "remove note",
-handler: ()=>console.log("removing notes...")})
+yargs.command({
+    command: "list",
+    describe: "list note",
+    handler: () => console.log("listing notes...")
+})
 
-yargs.command({command:"read",
-describe: "read note",
-handler: ()=>console.log("reding notes...")})
-
-yargs.command({command:"list",
-describe: "list note",
-handler: ()=>console.log("listing notes...")})
-
-console.log(chalk.yellow(yargs.argv))
+console.log(yargs.argv);
